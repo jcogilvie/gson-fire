@@ -2,6 +2,7 @@ package io.gsonfire.gson;
 
 import com.gilecode.yagson.ReadContext;
 import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.adapters.DelegatingTypeAdapter;
 import com.gilecode.yagson.com.google.gson.Gson;
 import com.gilecode.yagson.com.google.gson.JsonElement;
 import com.gilecode.yagson.com.google.gson.JsonParser;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * @autor: julio
  */
-public final class HooksTypeAdapter<T> extends TypeAdapter<T> {
+public final class HooksTypeAdapter<T> extends DelegatingTypeAdapter<T> {
 
     private final Class<T> clazz;
     private final ClassConfig<? super T> classConfig;
@@ -33,6 +34,9 @@ public final class HooksTypeAdapter<T> extends TypeAdapter<T> {
         this.gson = gson;
         this.originalTypeAdapter = originalTypeAdapter;
         this.clazz = classAdapter;
+
+        // yagson change
+        this.delegate = originalTypeAdapter;
     }
 
     @Override
