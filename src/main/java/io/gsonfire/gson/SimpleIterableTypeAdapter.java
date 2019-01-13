@@ -1,10 +1,12 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonToken;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.util.SimpleIterable;
 
 import java.io.IOException;
@@ -26,7 +28,7 @@ public final class SimpleIterableTypeAdapter extends TypeAdapter<SimpleIterable<
     }
 
     @Override
-    public void write(JsonWriter out, SimpleIterable<?> iterable) throws IOException {
+    public void write(JsonWriter out, SimpleIterable<?> iterable, WriteContext ctx) throws IOException {
         if(iterable != null) {
             out.beginArray();
             for(Object v: iterable) {
@@ -39,7 +41,7 @@ public final class SimpleIterableTypeAdapter extends TypeAdapter<SimpleIterable<
     }
 
     @Override
-    public SimpleIterable<?> read(JsonReader in) throws IOException {
+    public SimpleIterable<?> read(JsonReader in, ReadContext ctx) throws IOException {
         if(in.peek() == JsonToken.NULL) {
             return null;
         } else {

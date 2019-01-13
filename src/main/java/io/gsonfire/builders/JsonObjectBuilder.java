@@ -1,8 +1,8 @@
 package io.gsonfire.builders;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonNull;
+import com.gilecode.yagson.com.google.gson.JsonObject;
 import io.gsonfire.util.JsonUtils;
 
 import java.util.Map;

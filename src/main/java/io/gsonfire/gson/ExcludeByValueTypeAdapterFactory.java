@@ -1,9 +1,15 @@
 package io.gsonfire.gson;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.TypeAdapterFactory;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.annotations.ExcludeByValue;
 import io.gsonfire.util.FieldNameResolver;
 import io.gsonfire.util.JsonUtils;
@@ -48,10 +54,10 @@ public final class ExcludeByValueTypeAdapterFactory implements TypeAdapterFactor
         }
 
         @Override
-        public void write(JsonWriter out, Object src) throws IOException {
+        public void write(JsonWriter out, Object src, WriteContext ctx) throws IOException {
             if (src == null) {
                 //if src is null there is nothing for this type adapter to do, delegate it to the original type adapter
-                originalTypeAdapter.write(out, src);
+                originalTypeAdapter.write(out, src, ctx);
             } else {
                 JsonObject postProcessedObject = null; //if we detect there is something we should exclude, this will be !=null
 
@@ -68,7 +74,7 @@ public final class ExcludeByValueTypeAdapterFactory implements TypeAdapterFactor
                                 //Now let's check if the JsonObject is in memory, if not we will get it
                                 //from the originalTypeAdapter
                                 if(postProcessedObject == null) {
-                                    JsonElement originalResult = JsonUtils.toJsonTree(originalTypeAdapter, out, src);
+                                    JsonElement originalResult = JsonUtils.toJsonTree(originalTypeAdapter, out, src, ctx);
                                     if(originalResult == null || originalResult.isJsonNull() || !originalResult.isJsonObject()) {
                                         break;
                                     }
@@ -89,14 +95,14 @@ public final class ExcludeByValueTypeAdapterFactory implements TypeAdapterFactor
                     gson.toJson(postProcessedObject, out);
                 } else {
                     //postProcessedObject was null, this means nothing was excluded, we will just use the original type adapter
-                    originalTypeAdapter.write(out, src);
+                    originalTypeAdapter.write(out, src, ctx);
                 }
             }
         }
 
         @Override
-        public Object read(JsonReader in) throws IOException {
-            return originalTypeAdapter.read(in);
+        public Object read(JsonReader in, ReadContext ctx) throws IOException {
+            return originalTypeAdapter.read(in, ctx);
         }
     }
 

@@ -1,9 +1,11 @@
 package io.gsonfire.gson;
 
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.util.RFC3339DateFormat;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -47,12 +49,12 @@ public final class DateRFC3339TypeAdapter extends TypeAdapter<Date> {
     }
 
     @Override
-    public void write(JsonWriter out, Date value) throws IOException {
+    public void write(JsonWriter out, Date value, WriteContext ctx) throws IOException {
         out.value(getDateFormat().format(value));
     }
 
     @Override
-    public Date read(JsonReader in) throws IOException {
+    public Date read(JsonReader in, ReadContext ctx) throws IOException {
         final String dateStr = in.nextString();
         try {
             return getDateFormat().parse(dateStr);

@@ -1,12 +1,15 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapter;
-import com.google.gson.internal.bind.JsonTreeReader;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonParser;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.internal.Streams;
+import com.gilecode.yagson.com.google.gson.internal.bind.JsonTreeReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.ClassConfig;
 import io.gsonfire.PostProcessor;
 import io.gsonfire.PreProcessor;
@@ -33,12 +36,12 @@ public final class HooksTypeAdapter<T> extends TypeAdapter<T> {
     }
 
     @Override
-    public void write(JsonWriter out, T value) throws IOException {
+    public void write(JsonWriter out, T value, WriteContext ctx) throws IOException {
         if(classConfig.isHooksEnabled()){
             hooksInvoker.preSerialize(value);
         }
 
-        JsonElement res = JsonUtils.toJsonTree(originalTypeAdapter, out, value);
+        JsonElement res = JsonUtils.toJsonTree(originalTypeAdapter, out, value, ctx);
 
         //Run all the post serializers
         runPostSerialize(res, value);
@@ -47,11 +50,11 @@ public final class HooksTypeAdapter<T> extends TypeAdapter<T> {
     }
 
     @Override
-    public T read(JsonReader in) throws IOException {
+    public T read(JsonReader in, ReadContext ctx) throws IOException {
         JsonElement json = new JsonParser().parse(in);
 
         runPreDeserialize(json);
-        T result = deserialize(json, in.isLenient());
+        T result = deserialize(json, in.isLenient(), ctx);
 
         //Run all the post deserializers
         if (classConfig.isHooksEnabled()) {
@@ -80,10 +83,10 @@ public final class HooksTypeAdapter<T> extends TypeAdapter<T> {
         }
     }
 
-    private T deserialize(JsonElement json, boolean lenient) throws IOException{
+    private T deserialize(JsonElement json, boolean lenient, ReadContext ctx) throws IOException{
         JsonReader jsonReader = new JsonTreeReader(json);
         jsonReader.setLenient(lenient);
-        T deserialized = originalTypeAdapter.read(jsonReader);
+        T deserialized = originalTypeAdapter.read(jsonReader, ctx);
         return deserialized;
     }
 

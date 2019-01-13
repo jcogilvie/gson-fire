@@ -1,9 +1,15 @@
 package io.gsonfire.gson;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonParser;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.TypeAdapterFactory;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.ClassConfig;
 import io.gsonfire.TypeSelector;
 import io.gsonfire.util.JsonUtils;
@@ -15,7 +21,7 @@ import java.util.Set;
  * Creates a {@link TypeAdapter} that will run the {@link TypeSelector} and find the {@link TypeAdapter} for the selected
  * type.
  */
-public class TypeSelectorTypeAdapterFactory<T> implements TypeAdapterFactory{
+public class TypeSelectorTypeAdapterFactory<T> implements TypeAdapterFactory {
 
     private final ClassConfig<T> classConfig;
     private final Set<TypeToken> alreadyResolvedTypeTokensRegistry;
@@ -54,13 +60,13 @@ public class TypeSelectorTypeAdapterFactory<T> implements TypeAdapterFactory{
         }
 
         @Override
-        public void write(JsonWriter out, T value) throws IOException {
+        public void write(JsonWriter out, T value, WriteContext ctx) throws IOException {
             TypeAdapter otherTypeAdapter = gson.getDelegateAdapter(TypeSelectorTypeAdapterFactory.this, TypeToken.get(value.getClass()));
-            otherTypeAdapter.write(out, value);
+            otherTypeAdapter.write(out, value, ctx);
         }
 
         @Override
-        public T read(JsonReader in) throws IOException {
+        public T read(JsonReader in, ReadContext ctx) throws IOException {
             JsonElement json = new JsonParser().parse(in);
             Class deserialize = this.typeSelector.getClassForElement(json);
             if(deserialize == null) {
@@ -79,7 +85,7 @@ public class TypeSelectorTypeAdapterFactory<T> implements TypeAdapterFactory{
             } finally {
                 alreadyResolvedTypeTokensRegistry.remove(typeToken);
             }
-            return JsonUtils.fromJsonTree(otherTypeAdapter, in, json);
+            return JsonUtils.fromJsonTree(otherTypeAdapter, in, json, ctx);
         }
     }
 

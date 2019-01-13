@@ -1,7 +1,7 @@
 package io.gsonfire.builders;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonArray;
+import com.gilecode.yagson.com.google.gson.JsonElement;
 import io.gsonfire.util.JsonUtils;
 
 /**

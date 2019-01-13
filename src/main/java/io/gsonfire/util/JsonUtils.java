@@ -1,10 +1,16 @@
 package io.gsonfire.util;
 
-import com.google.gson.*;
-import com.google.gson.internal.bind.JsonTreeReader;
-import com.google.gson.internal.bind.JsonTreeWriter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.JsonArray;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonNull;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.internal.bind.JsonTreeReader;
+import com.gilecode.yagson.com.google.gson.internal.bind.JsonTreeWriter;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -46,19 +52,19 @@ public class JsonUtils {
         }
     }
 
-    public static JsonElement toJsonTree(TypeAdapter typeAdapter, JsonWriter optionsFrom, Object value) throws IOException {
+    public static JsonElement toJsonTree(TypeAdapter typeAdapter, JsonWriter optionsFrom, Object value, WriteContext ctx) throws IOException {
         JsonTreeWriter jsonTreeWriter = new JsonTreeWriter();
         jsonTreeWriter.setLenient(optionsFrom.isLenient());
         jsonTreeWriter.setHtmlSafe(optionsFrom.isHtmlSafe());
         jsonTreeWriter.setSerializeNulls(optionsFrom.getSerializeNulls());
-        typeAdapter.write(jsonTreeWriter, value);
+        typeAdapter.write(jsonTreeWriter, value, ctx);
         return jsonTreeWriter.get();
     }
 
-    public static <T> T fromJsonTree(TypeAdapter<T> typeAdapter, JsonReader originalReader, JsonElement element) throws IOException {
+    public static <T> T fromJsonTree(TypeAdapter<T> typeAdapter, JsonReader originalReader, JsonElement element, ReadContext ctx) throws IOException {
         JsonTreeReader jsonTreeReader = new JsonTreeReader(element);
         jsonTreeReader.setLenient(originalReader.isLenient());
-        return typeAdapter.read(jsonTreeReader);
+        return typeAdapter.read(jsonTreeReader, ctx);
     }
 
 }

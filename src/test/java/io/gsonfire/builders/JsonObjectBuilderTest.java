@@ -1,8 +1,8 @@
 package io.gsonfire.builders;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.gilecode.yagson.com.google.gson.JsonArray;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.JsonPrimitive;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

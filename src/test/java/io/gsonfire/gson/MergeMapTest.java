@@ -1,10 +1,10 @@
 package io.gsonfire.gson;
 
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.annotations.Expose;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.annotations.MergeMap;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
 import org.junit.Test;
 
 import java.util.HashMap;

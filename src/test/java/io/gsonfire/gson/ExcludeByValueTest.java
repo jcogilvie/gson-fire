@@ -1,8 +1,8 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.annotations.Expose;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.annotations.ExcludeByValue;
 import org.junit.Test;

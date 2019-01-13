@@ -1,8 +1,10 @@
 package io.gsonfire;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.GsonBuilder;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
 import io.gsonfire.gson.*;
 import io.gsonfire.postprocessors.MergeMapPostProcessor;
 import io.gsonfire.postprocessors.methodinvoker.MethodInvokerPostProcessor;
@@ -265,5 +267,52 @@ public final class GsonFireBuilder {
      */
     public Gson createGson(){
         return createGsonBuilder().create();
+    }
+
+    /**
+     * Returns a new instance of the good old {@link GsonBuilder}
+     * @return
+     */
+    public YaGsonBuilder createYaGsonBuilder(){
+        Set<TypeToken> alreadyResolvedTypeTokensRegistry = Collections.newSetFromMap(new ConcurrentHashMap<TypeToken, Boolean>());
+        YaGsonBuilder builder = new YaGsonBuilder();
+
+        if(enableExposeMethodResults) {
+            FireExclusionStrategy compositeExclusionStrategy = new FireExclusionStrategyComposite(serializationExclusions);
+            registerPostProcessor(Object.class, new MethodInvokerPostProcessor<Object>(compositeExclusionStrategy));
+        }
+
+        if(enableExclusionByValueStrategies) {
+            builder.registerTypeAdapterFactory(new ExcludeByValueTypeAdapterFactory(fieldInspector, factory));
+        }
+
+        for(Class clazz: orderedClasses){
+            ClassConfig config = classConfigMap.get(clazz);
+            if(config.getTypeSelector() != null) {
+                builder.registerTypeAdapterFactory(new TypeSelectorTypeAdapterFactory(config, alreadyResolvedTypeTokensRegistry));
+            }
+            builder.registerTypeAdapterFactory(new HooksTypeAdapterFactory(config));
+        }
+
+        for(Map.Entry<Class, Enum> enumDefault: enumDefaultValues.entrySet()) {
+            builder.registerTypeAdapterFactory(new EnumDefaultValueTypeAdapterFactory(enumDefault.getKey(), enumDefault.getValue()));
+        }
+
+        if(dateSerializationPolicy != null){
+            builder.registerTypeAdapter(Date.class, dateSerializationPolicy.createTypeAdapter(serializeTimeZone));
+        }
+
+        builder.registerTypeAdapterFactory(new SimpleIterableTypeAdapterFactory());
+        builder.registerTypeAdapterFactory(new WrapTypeAdapterFactory(wrappedClasses));
+
+        return builder;
+    }
+
+    /**
+     * Returns a new {@link Gson} instance
+     * @return
+     */
+    public YaGson createYaGson(){
+        return createYaGsonBuilder().create();
     }
 }

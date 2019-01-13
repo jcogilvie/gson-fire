@@ -1,10 +1,11 @@
 package io.gsonfire;
 
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
 import io.gsonfire.gson.DateUnixtimeSecondsTypeAdapter;
 import io.gsonfire.gson.DateUnixtimeMillisTypeAdapter;
 import io.gsonfire.gson.DateRFC3339TypeAdapter;
 import io.gsonfire.gson.NullableTypeAdapter;
-import com.google.gson.TypeAdapter;
+
 
 import java.util.Date;
 import java.util.TimeZone;

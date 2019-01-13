@@ -1,7 +1,7 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonObject;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.annotations.PostDeserialize;
 import io.gsonfire.annotations.PreSerialize;

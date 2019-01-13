@@ -1,9 +1,15 @@
 package io.gsonfire.gson;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.TypeAdapterFactory;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 import io.gsonfire.util.JsonUtils;
 import io.gsonfire.util.Mapper;
 
@@ -59,13 +65,13 @@ public class WrapTypeAdapterFactory<T> implements TypeAdapterFactory {
         }
 
         @Override
-        public void write(JsonWriter out, T src) throws IOException {
+        public void write(JsonWriter out, T src, WriteContext ctx) throws IOException {
             if (src == null) {
                 //if src is null there is nothing for this type adapter to do, delegate it to the original type adapter
-                originalTypeAdapter.write(out, src);
+                originalTypeAdapter.write(out, src, ctx);
             } else {
                 final String value = mapper.map(src);
-                JsonElement unwrappedObj = JsonUtils.toJsonTree(originalTypeAdapter, out, src);
+                JsonElement unwrappedObj = JsonUtils.toJsonTree(originalTypeAdapter, out, src, ctx);
                 JsonObject wrappedObj = new JsonObject();
                 wrappedObj.add(value, unwrappedObj);
                 gson.toJson(wrappedObj, out);
@@ -73,10 +79,10 @@ public class WrapTypeAdapterFactory<T> implements TypeAdapterFactory {
         }
 
         @Override
-        public T read(JsonReader in) throws IOException {
+        public T read(JsonReader in, ReadContext ctx) throws IOException {
             in.beginObject();
             in.nextName();
-            T unwrappedObj = originalTypeAdapter.read(in);
+            T unwrappedObj = originalTypeAdapter.read(in, ctx);
             in.endObject();
             return unwrappedObj;
         }

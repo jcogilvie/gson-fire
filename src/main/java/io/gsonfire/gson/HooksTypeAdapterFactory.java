@@ -1,9 +1,9 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.TypeAdapterFactory;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
 import io.gsonfire.ClassConfig;
 
 /**

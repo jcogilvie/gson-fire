@@ -1,8 +1,8 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonPrimitive;
 import io.gsonfire.DateSerializationPolicy;
 import io.gsonfire.GsonFireBuilder;
 import org.junit.Test;

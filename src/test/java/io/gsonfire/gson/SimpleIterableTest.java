@@ -1,7 +1,7 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.util.SimpleIterable;
 import org.junit.Test;

@@ -1,11 +1,13 @@
 package io.gsonfire.gson;
 
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.TypeAdapterFactory;
+import com.gilecode.yagson.com.google.gson.reflect.TypeToken;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
@@ -30,13 +32,13 @@ public final class EnumDefaultValueTypeAdapterFactory<T extends Enum> implements
                 new TypeAdapter<T>() {
 
                     @Override
-                    public void write(JsonWriter jsonWriter, T o) throws IOException {
-                        originalTypeAdapter.write(jsonWriter, o);
+                    public void write(JsonWriter jsonWriter, T o, WriteContext ctx) throws IOException {
+                        originalTypeAdapter.write(jsonWriter, o, ctx);
                     }
 
                     @Override
-                    public T read(JsonReader jsonReader) throws IOException {
-                        T result = originalTypeAdapter.read(jsonReader);
+                    public T read(JsonReader jsonReader, ReadContext ctx) throws IOException {
+                        T result = originalTypeAdapter.read(jsonReader, ctx);
                         if(result == null) {
                             return (T) defaultValue;
                         } else {

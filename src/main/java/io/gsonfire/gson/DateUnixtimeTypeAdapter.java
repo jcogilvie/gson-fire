@@ -1,8 +1,10 @@
 package io.gsonfire.gson;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.gilecode.yagson.ReadContext;
+import com.gilecode.yagson.WriteContext;
+import com.gilecode.yagson.com.google.gson.TypeAdapter;
+import com.gilecode.yagson.com.google.gson.stream.JsonReader;
+import com.gilecode.yagson.com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.Date;
@@ -19,7 +21,7 @@ abstract class DateUnixtimeTypeAdapter extends TypeAdapter<Date> {
     }
 
     @Override
-    public final void write(JsonWriter out, Date value) throws IOException {
+    public final void write(JsonWriter out, Date value, WriteContext ctx) throws IOException {
         long time = value.getTime();
         if(time >=0 || this.allowNegativeTimestamp){
             out.value(toTimestamp(value));
@@ -29,7 +31,7 @@ abstract class DateUnixtimeTypeAdapter extends TypeAdapter<Date> {
     }
 
     @Override
-    public final Date read(JsonReader in) throws IOException {
+    public final Date read(JsonReader in, ReadContext ctx) throws IOException {
         long time = in.nextLong();
         if(time >=0 || this.allowNegativeTimestamp) {
             return fromTimestamp(time);

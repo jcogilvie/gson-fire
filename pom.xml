@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.gsonfire</groupId>
-    <artifactId>gson-fire</artifactId>
+    <artifactId>yagson-fire</artifactId>
     <version>1.8.3</version>
 
     <name>Gson on Fire!</name>
@@ -115,9 +115,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.7</version>
+            <groupId>com.gilecode.yagson</groupId>
+            <artifactId>yagson</artifactId>
+            <version>0.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

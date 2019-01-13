@@ -1,8 +1,8 @@
 package io.gsonfire.postprocessors;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.gilecode.yagson.com.google.gson.Gson;
+import com.gilecode.yagson.com.google.gson.JsonElement;
+import com.gilecode.yagson.com.google.gson.JsonObject;
 import io.gsonfire.PostProcessor;
 import io.gsonfire.annotations.MergeMap;
 import io.gsonfire.util.reflection.FieldInspector;
