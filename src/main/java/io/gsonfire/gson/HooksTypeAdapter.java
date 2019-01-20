@@ -30,13 +30,11 @@ public final class HooksTypeAdapter<T> extends DelegatingTypeAdapter<T> {
     private final HooksInvoker hooksInvoker = new HooksInvoker();
 
     public HooksTypeAdapter(Class<T> classAdapter, ClassConfig<? super T> classConfig, TypeAdapter<T> originalTypeAdapter, Gson gson) {
+        super(originalTypeAdapter);
         this.classConfig = classConfig;
         this.gson = gson;
         this.originalTypeAdapter = originalTypeAdapter;
         this.clazz = classAdapter;
-
-        // yagson change
-        this.delegate = originalTypeAdapter;
     }
 
     @Override
